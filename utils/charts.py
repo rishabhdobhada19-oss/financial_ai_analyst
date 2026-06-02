@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from config import CHART_TEMPLATE
+from utils.helpers import chart_template
 
 
 def line_chart(df: pd.DataFrame, title: str, y_title: str = "") -> go.Figure:
@@ -12,7 +12,7 @@ def line_chart(df: pd.DataFrame, title: str, y_title: str = "") -> go.Figure:
     if df is not None and not df.empty:
         for column in df.columns:
             fig.add_trace(go.Scatter(x=df.index, y=df[column], mode="lines+markers", name=str(column)))
-    fig.update_layout(template=CHART_TEMPLATE, title=title, height=380, margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_layout(template=chart_template(), title=title, height=380, margin=dict(l=20, r=20, t=54, b=20))
     fig.update_yaxes(title=y_title)
     return fig
 
@@ -32,7 +32,7 @@ def pie_chart(values: pd.Series, title: str) -> go.Figure:
                     hovertemplate="%{label}<br>Value: %{value:.3f}<br>Share: %{percent}<extra></extra>",
                 )
             )
-    fig.update_layout(template=CHART_TEMPLATE, title=title, height=380, margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_layout(template=chart_template(), title=title, height=380, margin=dict(l=20, r=20, t=54, b=20))
     return fig
 
 
@@ -44,8 +44,8 @@ def price_volume_chart(hist: pd.DataFrame) -> go.Figure:
             if ma in hist:
                 fig.add_trace(go.Scatter(x=hist.index, y=hist[ma], name=ma, line=dict(width=1.4, color=color)), row=1, col=1)
         fig.add_trace(go.Bar(x=hist.index, y=hist["Volume"], name="Volume", marker_color="#64748b"), row=2, col=1)
-    fig.update_layout(template=CHART_TEMPLATE, height=560, title="Stock Price and Volume", margin=dict(l=20, r=20, t=54, b=20))
-    fig.update_yaxes(title="Price", row=1, col=1)
+    fig.update_layout(template=chart_template(), height=560, title="Stock Price and Volume", margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_yaxes(title="Price (₹)", row=1, col=1)
     fig.update_yaxes(title="Volume", row=2, col=1)
     return fig
 
@@ -56,7 +56,7 @@ def macd_chart(hist: pd.DataFrame) -> go.Figure:
         fig.add_trace(go.Scatter(x=hist.index, y=hist["MACD"], name="MACD", line=dict(color="#38bdf8")))
         fig.add_trace(go.Scatter(x=hist.index, y=hist["MACD Signal"], name="Signal", line=dict(color="#f59e0b")))
         fig.add_trace(go.Bar(x=hist.index, y=hist["MACD Histogram"], name="Histogram", marker_color="#94a3b8"))
-    fig.update_layout(template=CHART_TEMPLATE, height=340, title="MACD", margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_layout(template=chart_template(), height=340, title="MACD", margin=dict(l=20, r=20, t=54, b=20))
     return fig
 
 
@@ -85,5 +85,6 @@ def forecast_chart(hist: pd.DataFrame, forecast: pd.DataFrame, title: str) -> go
                 line=dict(width=0),
             )
         )
-    fig.update_layout(template=CHART_TEMPLATE, height=460, title=title, margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_layout(template=chart_template(), height=460, title=title, margin=dict(l=20, r=20, t=54, b=20))
+    fig.update_yaxes(title="Price (₹)")
     return fig

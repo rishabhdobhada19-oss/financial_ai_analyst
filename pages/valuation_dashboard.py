@@ -32,4 +32,8 @@ def render(statements: dict, info: dict) -> None:
 
     if valuation["latest_fcf"] == 0:
         st.warning("DCF inputs are limited because free cash flow data is unavailable. Try another ticker or reporting period.")
-    st.dataframe(valuation["forecast"], width="stretch")
+    forecast = valuation["forecast"].copy()
+    for column in ["Free Cash Flow", "Discounted FCF"]:
+        if column in forecast:
+            forecast[column] = forecast[column].map(format_currency)
+    st.dataframe(forecast, width="stretch", hide_index=True)

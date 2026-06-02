@@ -3,7 +3,7 @@ from __future__ import annotations
 import streamlit as st
 
 from config import STATEMENT_LINE_ITEMS
-from utils.helpers import format_number, show_data_warning, statement_to_table
+from utils.helpers import format_currency, show_data_warning, statement_to_table
 
 
 def _show_statement(title: str, df, rows: list[str]) -> None:
@@ -12,7 +12,7 @@ def _show_statement(title: str, df, rows: list[str]) -> None:
     if table.empty:
         show_data_warning(f"{title} data is not available for this ticker.")
         return
-    st.dataframe(table.map(format_number), width="stretch")
+    st.dataframe(table.map(format_currency), width="stretch")
 
 
 def render(statements: dict) -> None:

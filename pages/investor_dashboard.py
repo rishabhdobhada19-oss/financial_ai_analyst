@@ -4,9 +4,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from config import CHART_TEMPLATE
 from utils.financial_ratios import calculate_ratios
-from utils.helpers import format_currency, format_percent, format_ratio, safe_float, show_data_warning
+from utils.helpers import chart_template, format_currency, format_percent, format_ratio, safe_float, show_data_warning
 from utils.valuation import dcf_valuation
 
 
@@ -80,7 +79,7 @@ def _health_gauge(score_percent: int, condition: str) -> go.Figure:
             },
         )
     )
-    fig.update_layout(template=CHART_TEMPLATE, height=285, margin=dict(l=20, r=20, t=46, b=18))
+    fig.update_layout(template=chart_template(), height=285, margin=dict(l=20, r=20, t=46, b=18))
     return fig
 
 
@@ -89,13 +88,13 @@ def _valuation_bar(current_price: float, fair_value: float) -> go.Figure:
     fig.add_trace(go.Bar(x=["Current Price"], y=[current_price], marker_color="#94a3b8", name="Current Price"))
     fig.add_trace(go.Bar(x=["DCF Fair Value"], y=[fair_value], marker_color="#22c55e", name="DCF Fair Value"))
     fig.update_layout(
-        template=CHART_TEMPLATE,
+        template=chart_template(),
         title="Market Price vs Estimated Fair Value",
         height=285,
         margin=dict(l=20, r=20, t=50, b=24),
         showlegend=False,
     )
-    fig.update_yaxes(title="Price")
+    fig.update_yaxes(title="Price (₹)")
     return fig
 
 
@@ -114,7 +113,7 @@ def _driver_chart(rows: list[dict]) -> go.Figure:
         )
     )
     fig.update_layout(
-        template=CHART_TEMPLATE,
+        template=chart_template(),
         title="Investor Driver Scorecard",
         height=360,
         margin=dict(l=20, r=20, t=50, b=24),
@@ -134,7 +133,7 @@ def _mix_chart(rows: list[dict]) -> go.Figure:
             textinfo="label+value",
         )
     )
-    fig.update_layout(template=CHART_TEMPLATE, title="Risk / Health Mix", height=360, margin=dict(l=20, r=20, t=50, b=24))
+    fig.update_layout(template=chart_template(), title="Risk / Health Mix", height=360, margin=dict(l=20, r=20, t=50, b=24))
     return fig
 
 

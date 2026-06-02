@@ -21,6 +21,7 @@ from pages import (
     valuation_dashboard,
 )
 from utils.charts import macd_chart, price_volume_chart
+from utils.currency import convert_info_to_inr, convert_price_history_to_inr, convert_statements_to_inr
 from utils.fetch_data import get_financial_statements, get_price_history, get_ticker_info, search_companies
 from utils.forecasting import add_technical_indicators
 from utils.helpers import clean_ticker, inject_css, show_data_warning
@@ -55,7 +56,10 @@ def render_stock_performance(hist) -> None:
 
 def main() -> None:
     st.set_page_config(page_title=APP_TITLE, page_icon="FA", layout="wide")
-    inject_css()
+
+    with st.sidebar:
+        theme_mode = st.radio("Theme", ["Dark", "Light"], horizontal=True, key="theme_mode")
+    inject_css(theme_mode)
 
     st.title(APP_TITLE)
     st.caption("Equity research, valuation, forecasting, and financial statement analysis from public market data.")
@@ -86,7 +90,7 @@ def main() -> None:
         else:
             ticker = ""
             if query.strip():
-                st.info("No company match found. Try the exact Yahoo Finance ticker, such as `MSFT` or `RELIANCE.NS`.")
+                st.info("No company match found. Try the exact Yahoo Finance ticker, such as `MSFT`, `RELIANCE.NS`, or `TCS.NS`.")
 
         period = st.selectbox("Price History", PRICE_PERIODS, index=PRICE_PERIODS.index(DEFAULT_PERIOD))
         statement_view = st.radio("Financial Statements", ["Annual", "Quarterly"], horizontal=True)
@@ -113,6 +117,14 @@ def main() -> None:
         info = get_ticker_info(ticker)
         statements = get_financial_statements(ticker, quarterly=statement_view == "Quarterly")
         hist = get_price_history(ticker, period=period)
+        info = convert_info_to_inr(info)
+        statements = convert_statements_to_inr(statements, info)
+        hist = convert_price_history_to_inr(hist, info)
+
+    if not info.get("_error"):
+        source_currency = info.get("_source_currency") or "INR"
+        inr_rate = info.get("_inr_rate") or 1
+        st.caption(f"All monetary values are displayed in ₹. Source currency: {source_currency}; conversion rate: ₹{inr_rate:,.2f}.")
 
     if page == "Company Overview":
         company_overview.render(ticker, info)

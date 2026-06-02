@@ -32,12 +32,14 @@ def render(ticker: str, info: dict) -> None:
     cols = st.columns([1.2, 0.8])
     with cols[0]:
         st.markdown("#### Business Summary")
-        st.write(info.get("longBusinessSummary") or "No business summary available from Yahoo Finance.")
+        st.write(info.get("longBusinessSummary") or "No business summary available from Twelve Data.")
     with cols[1]:
         st.markdown("#### Trading Snapshot")
         rows = {
             "Exchange": info.get("exchange") or "N/A",
-            "Currency": info.get("currency") or "N/A",
+            "Display Currency": "₹",
+            "Source Currency": info.get("_source_currency") or info.get("currency") or "N/A",
+            "₹ Conversion Rate": format_currency(info.get("_inr_rate")),
             "Forward P/E": str(info.get("forwardPE") or "N/A"),
             "Trailing P/E": str(info.get("trailingPE") or "N/A"),
             "Price to Book": str(info.get("priceToBook") or "N/A"),

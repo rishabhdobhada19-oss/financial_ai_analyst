@@ -1,11 +1,30 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# API Configuration
+TWELVE_DATA_API_KEY = os.getenv("TWELVE_DATA_API_KEY", "")
+
+TWELVE_DATA_BASE_URL = "https://api.twelvedata.com"
+
+# App Configuration
 APP_TITLE = "AI Financial Analyst"
 DEFAULT_TICKER = "AAPL"
 DEFAULT_SEARCH_QUERY = ""
 DEFAULT_PERIOD = "2y"
-PRICE_PERIODS = ["6mo", "1y", "2y", "5y", "10y"]
+
+PRICE_PERIODS = [
+    "6mo",
+    "1y",
+    "2y",
+    "5y",
+    "10y"
+]
 
 CHART_TEMPLATE = "plotly_dark"
 
+# Financial Statements
 STATEMENT_LINE_ITEMS = {
     "income": [
         "Total Revenue",
@@ -15,8 +34,9 @@ STATEMENT_LINE_ITEMS = {
         "Operating Income",
         "Operating Income Loss",
         "Net Income",
-        "Net Income Common Stockholders",
+        "Net Income Common Stockholders"
     ],
+
     "balance": [
         "Total Assets",
         "Total Liabilities Net Minority Interest",
@@ -29,11 +49,12 @@ STATEMENT_LINE_ITEMS = {
         "Total Current Liabilities",
         "Cash And Cash Equivalents",
         "Total Debt",
-        "Long Term Debt",
+        "Long Term Debt"
     ],
+
     "cashflow": [
         "Operating Cash Flow",
         "Free Cash Flow",
-        "Capital Expenditure",
-    ],
+        "Capital Expenditure"
+    ]
 }

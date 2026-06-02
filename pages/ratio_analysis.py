@@ -4,10 +4,9 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from config import CHART_TEMPLATE
 from utils.charts import pie_chart
 from utils.financial_ratios import calculate_ratios
-from utils.helpers import format_percent, format_ratio, kpi_grid, safe_float, show_data_warning
+from utils.helpers import chart_template, format_percent, format_ratio, kpi_grid, safe_float, show_data_warning
 
 
 PERCENT_RATIOS = {
@@ -80,7 +79,7 @@ def _bar_chart(ratios: pd.DataFrame, columns: list[str], title: str) -> go.Figur
         )
 
     fig.update_layout(
-        template=CHART_TEMPLATE,
+        template=chart_template(),
         title=title,
         barmode="group",
         height=420,
