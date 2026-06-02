@@ -8,7 +8,7 @@ The goal of this project is to help users convert raw public market data into cl
 
 ## 🎬 Project Demo
 
-[AI Financial Analyst Demo](ChatGPT Image Jun 2, 2026, 06_46_28 PM)](https://youtu.be/XvNjxwL2T4M?si=eNE3AaTX6sUwhjk6)
+[![AI Financial Analyst Demo](https://github.com/rishabhdobhada19-oss/financial_ai_analyst/blob/main/assets/screenshots/ChatGPT%20Image%20Jun%202%2C%202026%2C%2006_46_28%20PM.png)](https://youtu.be/XvNjxwL2T4M?si=eNE3AaTX6sUwhjk6)
 ## Screenshots
 
 Add your app screenshots inside `assets/screenshots/` using the same file names below.
